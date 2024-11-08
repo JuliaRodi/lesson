@@ -7,47 +7,52 @@ class Animal: # класс описывающий животных
     live = True
     sound = None # звук (изначально отсутствует)
     _DEGREE_OF_DANGER = 0 # степень опасности существа
+    x = 0
+    y = 0
+    z = 0
+    _cards = [x, y, z] # координаты в пространстве
 
-    def __init__(self, _cords, speed):
-        self._cords = [0, 0, 0] # координаты в пространстве
+    def __init__(self, speed: int):
+
         self.speed = speed # скорость передвижения существа
 
     def move(self, dx, dy, dz): # перемещение
-        _cords = self.speed[dx, dy, dz]
-        if dz < 0:
+        if dz * self.speed<0:
             print("It's too deep, i can't dive :(")
-            return
+        else:
+            Animal.x = dx * self.speed
+            Animal.y = dy * self.speed
+            Animal.z = dz * self.speed
 
     def get_cords(self): # вывод координат
-        print(f"X: {self.dx}, Y: {self.dy}, Z: {self.dz}")
+        print(f"X: {Animal.x}, Y: {Animal.y}, Z: {Animal.z}")
 
     def attack(self):
-        i = 10
-        if i in self._DEGREE_OF_DANGER < 5:
+        if self._DEGREE_OF_DANGER < 5:
             print("Sorry, i'm peaceful :)")
-        elif i in self._DEGREE_OF_DANGER > 5:
+        else:
             print("Be careful, i'm attacking you 0_0")
+
+    def speak(self):
+        print(self.sound)
 
 class Bird(Animal):
     beak = True # наличие клюва
     def lay_eggs(self):
-        print(f"Here are(is) {random.randint (0, 4)} eggs for you")
+        random_number = random.randint(1, 4)
+        print(f"Here are(is) {random_number} eggs for you")
 
 class AquaticAnimal(Animal): # класс описывающий плавающего животного
     _DEGREE_OF_DANGER = 3
-    def dive_in(self, dz):
-        self.dz = abs(dz)
-        _cords = self.speed[dx, dy, dz-2]
-        self.dz - 2
+
+    def dive_in(self, dz): # перемещение с учетом скорости
+        Animal.z=(Animal.z / 2) - abs(dz)
 
 class PoisonousAnimal(Animal): # класс описывающий ядовитых животных
     _DEGREE_OF_DANGER = 8
 
-class Duckbill(Bird, PoisonousAnimal, AquaticAnimal): # класс описывающий утконоса
+class Duckbill(PoisonousAnimal, Bird, AquaticAnimal): # класс описывающий утконоса
     sound = "Click-click-click"
-    # def __init__(self, sound: str, beak, _DEGREE_OF_DANGER, move, get_cords, dive_in, lay_eggs):
-    #     self.sound = "Click-click-click"
-    #     super().__init__(beak, _DEGREE_OF_DANGER, move, get_cords, dive_in, lay_eggs)
 
 print(Duckbill.mro())
 db = Duckbill(10)
@@ -55,7 +60,7 @@ db = Duckbill(10)
 print(db.live)
 print(db.beak)
 
-db.sound()
+db.speak()
 db.attack()
 
 db.move(1, 2, 3)
