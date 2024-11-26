@@ -9,8 +9,10 @@ class IncorrectCarNumbers(Exception):
 class Car:
     def __init__(self, model: str, vin: int, numbers: str):
         self.model = model # название автомобиля
-        self.__vin = vin # номер автомобиля
-        self.__numbers = numbers # номера автомобиля
+        if self.__is_valid_vin(vin):
+            self.__vin = vin # номер автомобиля
+        if self.__is_valid_numbers(numbers):
+            self.__numbers = numbers # номера автомобиля
         self.__is_valid_vin(vin)
         self.__is_valid_numbers(numbers)
 
