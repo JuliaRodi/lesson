@@ -1,7 +1,6 @@
 from itertools import combinations
 
 def all_variants(text):
-    list_1 = []
     for i in range(1, len(text) + 1):
         list_1 = []
         b = combinations(text, i)
@@ -11,5 +10,8 @@ def all_variants(text):
             yield (''.join(j))
 
 a = all_variants("abc")
+
 for i in a:
+    if i == 'ac':
+        continue
     print(i)
